@@ -1,0 +1,33 @@
+---
+- include_tasks: pip.yaml
+
+- name: Remove previous helm deployment
+  shell: "helm del --purge sauce-labs"
+  become: false
+  ignore_errors: yes
+
+# tasks file for roles/deploy
+- name: Install helm chart
+  shell: "helm install --name sauce-labs ./helm --set service.type=NodePort"
+  become: false
+  args:
+    chdir: "{{ playbook_dir }}"
+  
+- name: check k8s deployment
+  shell: "kubectl get deployments"
+  become: false
+  register: k8s_deployments
+
+- debug:
+    msg: "{{ k8s_deployments }}.stdout"
+
+- pause:
+    seconds: 10
+
+- name: get minikube deployment url
+  shell: minikube service sauce-labs-flask-api --url
+  become: false
+  register: url
+
+- debug:
+    msg: "{{ url }}.stdout"

@@ -1,0 +1,1 @@
+# resources and static files for documentation purposes

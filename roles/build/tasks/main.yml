@@ -1,0 +1,25 @@
+---
+# tasks file for roles/build
+- include_tasks: pip.yaml
+
+- name: run unit tests
+  shell: python3 -m pytest unit_test.py
+  args:
+    chdir: "{{ playbook_dir }}/tests"
+    creates: somelog.txt
+  register: unit_test_stdout
+
+- debug:
+    msg: "{{ unit_test_stdout }}.stdout"
+
+- name: Log into DockerHub
+  docker_login:
+    username: "{{ encrypted_username }}"
+    password: "{{ encrypted_password }}"
+
+- name: build docker image and push to registry
+  docker_image:
+    path: "{{ playbook_dir }}/Dockerfile"
+    name: sarabrajsingh/sauce-labs-python-app
+    tag: latest
+    push: yes

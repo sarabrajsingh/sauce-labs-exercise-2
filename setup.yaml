@@ -1,0 +1,14 @@
+---
+- hosts: local
+  become: true
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - include_role:
+        name: build
+    - include_role:
+        name: deploy
+    - include_role:
+        name: smoke
+...

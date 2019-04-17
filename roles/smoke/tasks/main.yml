@@ -1,0 +1,17 @@
+---
+# tasks file for roles/smoke
+- include_tasks: pip.yaml
+
+- name: get chromedriver
+  become: false
+  script: get_chrome_driver.sh
+
+- name: execute smoke tests against helm deployment
+  shell: "python3 tests/selenium_tests.py"
+  become: false
+  args:
+    chdir: "{{ playbook_dir }}"
+  register: smoke_test
+
+- debug:
+    msg: "{{ smoke_test }}.stdout"

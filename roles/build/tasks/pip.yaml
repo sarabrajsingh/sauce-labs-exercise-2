@@ -1,0 +1,6 @@
+---
+- pip:
+    name:
+      - docker==3.7.2
+      - cryptography
+      - pytest==4.4.1
