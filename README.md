@@ -30,6 +30,14 @@ Flask and Ansible
 pip3 install -r requirements.txt
 ```
 
+## Things to do Before Production
+
+1- wsgi framework that's prod friendly
+
+2- generalize hardcoded variables in ansible-playbooks and python scripts
+
+3- build a CI / CD tool to orchestrate deployment
+
 ## Deployment
 
 The entire ci/cd stack can be executed via an ansible playbook. The following command can be ran from the root directory of the project.
